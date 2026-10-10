@@ -2,20 +2,26 @@
   "name": "bhaskar-portfolio",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "packageManager": "bun@1.4.2",
   "scripts": {
-    "dev": "bun --bun next dev",
-    "build": "bun --bun next build",
-    "start": "bun --bun next start"
+    "dev": "concurrently -k -n web,api -c cyan,magenta \"vite\" \"bun --watch server/index.js\"",
+    "dev:web": "vite",
+    "dev:api": "bun --watch server/index.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "bun server/index.js"
   },
   "dependencies": {
-    "next": "14.2.15",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "4.3.3",
     "autoprefixer": "10.4.20",
+    "concurrently": "9.0.1",
     "postcss": "8.4.47",
-    "tailwindcss": "3.4.14"
+    "tailwindcss": "3.4.14",
+    "vite": "5.4.10"
   }
 }
