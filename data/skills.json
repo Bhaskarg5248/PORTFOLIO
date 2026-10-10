@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Languages & Frameworks",
+    "items": ["C#", ".NET", "ASP.NET", "ASP.NET MVC", ".NET Core"]
+  },
+  {
+    "category": "Frontend",
+    "items": ["HTML5", "CSS3", "JavaScript", "jQuery", "Bootstrap"]
+  },
+  {
+    "category": "Database",
+    "items": ["SQL Server", "MySQL", "Stored Procedures", "Triggers", "Functions", "Query Optimization"]
+  },
+  {
+    "category": "Architecture & Concepts",
+    "items": ["OOP", "SDLC", "Client-Server Architecture", "RESTful APIs", "Microservices"]
+  },
+  {
+    "category": "Tools & DevOps",
+    "items": ["GitHub", "Azure DevOps (CI/CD)", "IIS Configuration", "Deployment & Hosting"]
+  },
+  {
+    "category": "Development & Soft Skills",
+    "items": ["Web Application Development", "Desktop Application Development", "Debugging", "Problem Solving", "Team Collaboration", "Communication", "Requirement Analysis"]
+  }
+]

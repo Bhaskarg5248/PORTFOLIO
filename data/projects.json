@@ -1,0 +1,20 @@
+[
+  {
+    "id": "immospice",
+    "name": "Immospice",
+    "subtitle": "Real Estate Management System",
+    "role": "Software Engineer",
+    "tech": ["ASP.NET Core", "C#", "SQL Server"],
+    "description": "A web-based real estate platform to manage property listings, user access control, and banking-integrated financial transactions.",
+    "contributions": [
+      "Built and maintained a scalable ASP.NET Core application for property listings, user onboarding, and transaction workflows",
+      "Implemented phone number validation and formatting with libphonenumber-csharp, ensuring consistent E.123 formatting across user records",
+      "Integrated payment workflows using ISO 20022 PAIN and CAMT message formats, enabling structured communication with six banking systems",
+      "Validated financial transaction files using bank-provided tools to ensure compliance and accuracy",
+      "Designed automated PDF reports and financial summaries using iTextSharp",
+      "Implemented authentication and role-based access control (Admin, Agent, Customer)",
+      "Gathered requirements with stakeholders and translated business needs into technical solutions",
+      "Improved system security by enforcing proper access control and data validation"
+    ]
+  }
+]

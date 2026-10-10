@@ -1,0 +1,43 @@
+[
+  {
+    "company": "Bix Bytes Solutions",
+    "location": "Mangalore",
+    "role": "Software Engineer",
+    "period": "October 2025 – Present",
+    "points": [
+      "Maintained and enhanced ASP.NET Core Web APIs to ensure scalability and reliability",
+      "Applied relevant international and industry standards (e.g., ISO guidelines) in development practices",
+      "Managed CI/CD pipelines, work items, and source control using Azure DevOps",
+      "Partnered with business analysts to translate requirements into technical solutions",
+      "Collaborated with cross-functional teams to deliver new features and resolve production issues"
+    ]
+  },
+  {
+    "company": "Raasoft Infotech",
+    "location": "Mangalore",
+    "role": "Software Developer",
+    "period": "Mar 2025 – Sep 2025",
+    "points": [
+      "Designed and maintained enterprise microservices using ASP.NET Core Web API and ABP Framework",
+      "Integrated AWS Cognito for secure authentication across business systems",
+      "Developed and optimized EF Core queries for high-performance data operations",
+      "Managed CI/CD pipelines, work items, and version control using Azure DevOps",
+      "Collaborated with business teams on documentation covering architecture, APIs, and deployment processes",
+      "Maintained and enhanced an ATM Server project in C++, ensuring reliable transaction processing, protocol handling, and system stability"
+    ]
+  },
+  {
+    "company": "A1Logics",
+    "location": "Mangalore",
+    "role": "Junior Software Engineer",
+    "period": "Mar 2023 – Feb 2025",
+    "points": [
+      "Built scalable web and Windows applications using ASP.NET, C#, JavaScript, and SQL",
+      "Designed normalized database schemas, stored procedures, and optimized SQL queries",
+      "Developed RESTful APIs for seamless module communication",
+      "Created UI components using HTML, CSS, JavaScript, Bootstrap, and jQuery",
+      "Produced reports using Crystal Reports and iTextSharp",
+      "Participated in Agile ceremonies and contributed to process improvement initiatives"
+    ]
+  }
+]

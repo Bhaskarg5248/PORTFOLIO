@@ -1,0 +1,15 @@
+{
+  "name": "Bhaskar",
+  "title": ".NET Developer",
+  "location": "Karnataka, India",
+  "email": "bhaskar5248permude@gmail.com",
+  "phone": "+91 7760437957",
+  "linkedin": "https://linkedin.com/in/bhaskara-gowda-a4151a1b0",
+  "tagline": "I design, build and support enterprise web and desktop applications with C# and ASP.NET Core.",
+  "summary": ".NET Developer with 3+ years of experience in designing, developing, and supporting enterprise applications across web, desktop and integrated system environments. Skilled in C#, .NET Core, MVC, SQL, Windows, and modern development practices. Demonstrated ability to manage the full SDLC, integrate ERP/CRM systems, automate business processes, and ensure reliable system performance. A strong collaborator experienced in cross-functional coordination, vendor management, and implementing digital transformation initiatives.",
+  "stats": [
+    { "label": "Years of experience", "value": "3+" },
+    { "label": "Companies", "value": "3" },
+    { "label": "Banking systems integrated", "value": "6" }
+  ]
+}
