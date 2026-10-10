@@ -30,6 +30,26 @@ bun run start        # Bun serves dist/ and the API on http://localhost:3001
 
 Set `PORT` to change the port.
 
+## Digital Twin
+
+The **Digital twin** section is a chat UI where visitors ask questions and get first-person answers about
+your experience, skills, projects, education and contact details (`POST /api/twin`).
+
+- **Works out of the box, no key needed.** A built-in keyword matcher answers from the `data/*.json` files.
+  It can only answer what is in your data and politely declines anything else.
+- **Optional: Claude-powered answers.** Set an API key and the twin uses Claude (grounded on the same data,
+  told not to invent facts) and falls back to the built-in answers if the call fails:
+
+  ```bash
+  ANTHROPIC_API_KEY=sk-ant-... bun run start      # or add it to the shell running `bun run dev`
+  TWIN_MODEL=claude-sonnet-5-5                    # optional model override
+  ```
+
+  The key stays on the server and is never sent to the browser.
+- Edit the greeting, placeholder and suggestion chips in `data/twin.json`.
+- The endpoint is limited to 15 questions per minute per IP, with a 500-character cap per question.
+- The UI labels it clearly as an AI assistant.
+
 ## Project structure
 
 ```
@@ -37,9 +57,10 @@ index.html
 vite.config.js, tailwind.config.js, postcss.config.js
 src/
   main.jsx, App.jsx, index.css
-  components/        Navbar, Hero, About, Skills, Experience, Projects, Education, Contact, Footer, Section (.jsx)
-server/index.js      GET /api/portfolio, POST /api/contact, static serving of dist/
-data/                profile, skills, experience, projects, education, messages (JSON)
+  components/        Navbar, Hero, About, DigitalTwin, Skills, Experience, Projects, Education, Contact, Footer, Section (.jsx)
+server/index.js      GET /api/portfolio, POST /api/contact, POST /api/twin, static serving of dist/
+server/twin.js       Digital twin answer engine (built-in matcher + optional Claude)
+data/                profile, skills, experience, projects, education, twin, messages (JSON)
 ```
 
 ## Editing content

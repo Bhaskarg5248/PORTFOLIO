@@ -1,0 +1,13 @@
+{
+  "title": "Ask my digital twin",
+  "greeting": "Hi! I'm {name}'s AI digital twin. Ask me about my experience, skills, projects or education, and I'll answer from my resume.",
+  "placeholder": "Ask about my experience, skills, projects…",
+  "suggestions": [
+    "Tell me about yourself",
+    "What's your experience?",
+    "Which technologies do you use?",
+    "Tell me about Immospice",
+    "What did you study?",
+    "How can I contact you?"
+  ]
+}

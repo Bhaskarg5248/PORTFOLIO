@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
 import About from "./components/About.jsx";
+import DigitalTwin from "./components/DigitalTwin.jsx";
 import Skills from "./components/Skills.jsx";
 import Experience from "./components/Experience.jsx";
 import Projects from "./components/Projects.jsx";
@@ -48,7 +49,7 @@ export default function App() {
     );
   }
 
-  const { profile, skills, experience, projects, education } = data;
+  const { profile, skills, experience, projects, education, twin } = data;
 
   return (
     <>
@@ -56,6 +57,7 @@ export default function App() {
       <main>
         <Hero profile={profile} />
         <About profile={profile} />
+        <DigitalTwin profile={profile} twin={twin} />
         <Skills skills={skills} />
         <Experience experience={experience} />
         <Projects projects={projects} />

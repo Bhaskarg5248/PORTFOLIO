@@ -1,6 +1,7 @@
 // Bun API server: serves the JSON data, accepts contact messages, and (after
 // `bun run build`) serves the built Vite app from /dist.
 import { join, normalize, sep } from "node:path";
+import { answerTwin } from "./twin.js";
 
 const ROOT = join(import.meta.dir, "..");
 const DATA_DIR = join(ROOT, "data");
@@ -8,7 +9,8 @@ const DIST_DIR = join(ROOT, "dist");
 const PORT = Number(process.env.PORT ?? process.env.API_PORT ?? 3001);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PORTFOLIO_FILES = ["profile", "skills", "experience", "projects", "education"];
+const PORTFOLIO_FILES = ["profile", "skills", "experience", "projects", "education", "twin"];
+const RESUME_FILES = ["profile", "skills", "experience", "projects", "education"];
 
 const json = (body, status = 200) => Response.json(body, { status });
 
@@ -35,6 +37,52 @@ async function getPortfolio(req) {
   } catch (err) {
     console.error("portfolio load failed:", err);
     return json({ error: "Failed to load portfolio data" }, 500);
+  }
+}
+
+// Simple in-memory rate limit for the twin (it can trigger paid API calls).
+const TWIN_LIMIT = 15; // requests
+const TWIN_WINDOW_MS = 60_000;
+const twinHits = new Map();
+function twinRateLimited(ip) {
+  const now = Date.now();
+  const recent = (twinHits.get(ip) ?? []).filter((t) => now - t < TWIN_WINDOW_MS);
+  if (recent.length >= TWIN_LIMIT) {
+    twinHits.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  twinHits.set(ip, recent);
+  if (twinHits.size > 5000) {
+    for (const [k, v] of twinHits) if (!v.some((t) => now - t < TWIN_WINDOW_MS)) twinHits.delete(k);
+  }
+  return false;
+}
+
+async function postTwin(req, ip) {
+  if (twinRateLimited(ip)) {
+    return json({ error: "Too many questions, please wait a minute and try again" }, 429);
+  }
+
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+
+  const message = String(body?.message ?? "").trim();
+  if (!message) return json({ error: "Please type a question" }, 400);
+  if (message.length > 500) return json({ error: "Question is too long (500 characters max)" }, 400);
+
+  try {
+    const values = await Promise.all(RESUME_FILES.map(readJson));
+    const portfolio = Object.fromEntries(RESUME_FILES.map((k, i) => [k, values[i]]));
+    const { reply, source } = await answerTwin({ message, history: body?.history, portfolio });
+    return json({ reply, source });
+  } catch (err) {
+    console.error("twin failed:", err);
+    return json({ error: "The digital twin is unavailable right now" }, 500);
   }
 }
 
@@ -100,11 +148,15 @@ async function serveStatic(pathname) {
 
 Bun.serve({
   port: PORT,
-  async fetch(req) {
+  async fetch(req, server) {
     const { pathname } = new URL(req.url);
 
     if (pathname === "/api/portfolio") {
       return req.method === "GET" ? getPortfolio(req) : json({ error: "Method not allowed" }, 405);
+    }
+    if (pathname === "/api/twin") {
+      const ip = server.requestIP(req)?.address ?? "unknown";
+      return req.method === "POST" ? postTwin(req, ip) : json({ error: "Method not allowed" }, 405);
     }
     if (pathname === "/api/contact") {
       return req.method === "POST" ? postContact(req) : json({ error: "Method not allowed" }, 405);
