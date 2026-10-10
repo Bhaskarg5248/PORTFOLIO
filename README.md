@@ -8,15 +8,20 @@ Personal portfolio built from Bhaskar's resume.
 | Data | JSON files in `/data` |
 | Frontend | React |
 | Styling | Tailwind CSS |
+| Runtime / package manager | Bun |
 | Version control | Git |
 
 ## Getting started
 
+This project uses [Bun](https://bun.sh) as its package manager and runtime.
+
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build && npm start
+bun install
+bun run dev      # http://localhost:3000
+bun run build && bun run start
 ```
+
+`bun install` creates `bun.lock`; commit it so installs are reproducible.
 
 ## Project structure
 

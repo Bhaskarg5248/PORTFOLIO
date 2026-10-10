@@ -2,10 +2,11 @@
   "name": "bhaskar-portfolio",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "bun@1.4.2",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "bun --bun next dev",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start"
   },
   "dependencies": {
     "next": "14.2.15",
