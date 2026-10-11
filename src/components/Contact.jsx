@@ -5,7 +5,7 @@ const inputClass =
   "w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 dark:border-slate-700 dark:bg-slate-900 dark:text-white";
 
 export default function Contact({ profile }) {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
   const [status, setStatus] = useState({ state: "idle", error: "" });
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -21,7 +21,7 @@ export default function Contact({ profile }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Something went wrong");
-      setForm({ name: "", email: "", message: "" });
+      setForm({ name: "", email: "", message: "", website: "" });
       setStatus({ state: "sent", error: "" });
     } catch (err) {
       setStatus({ state: "error", error: err.message });
@@ -67,6 +67,11 @@ export default function Contact({ profile }) {
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4" noValidate>
+          {/* Honeypot: hidden from people, filled in by bots */}
+          <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input id="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={update("website")} />
+          </div>
           <div>
             <label htmlFor="name" className="mb-1 block text-sm font-medium">Name</label>
             <input id="name" className={inputClass} value={form.name} onChange={update("name")} required maxLength={100} />

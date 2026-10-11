@@ -8,7 +8,7 @@ Personal portfolio built from Bhaskar's resume.
 | Runtime / package manager | Bun |
 | Frontend | React (`.jsx` components) |
 | Styling | Tailwind CSS |
-| Backend | Small Bun API server (`server/index.js`) |
+| Backend | Vercel functions in `api/` (Bun server for local dev) |
 | Data | JSON files in `/data` |
 | Version control | Git |
 
@@ -21,14 +21,17 @@ bun run dev          # Vite on http://localhost:5173 + API on http://localhost:3
 
 Open http://localhost:5173. Vite proxies `/api/*` to the Bun server.
 
-### Production
+### Deploy to Vercel
 
-```bash
-bun run build        # outputs dist/
-bun run start        # Bun serves dist/ and the API on http://localhost:3001
-```
+1. Push this repo to GitHub, then in Vercel choose **Add New → Project** and import it
+   (`vercel.json` already sets the Vite build, `bun run build`, and output `dist`).
+2. Add environment variables (Project → Settings → Environment Variables):
+   - `RESEND_API_KEY` (required for the contact form; get one at resend.com)
+   - `CONTACT_TO` (optional, defaults to the email in `data/profile.json`)
+   - `ANTHROPIC_API_KEY` (optional, enables Claude answers in the Digital Twin)
+3. Deploy. The page is static; `/api/twin` and `/api/contact` run as Vercel functions from `api/`.
 
-Set `PORT` to change the port.
+`server/index.js` is for local development only; Vercel never runs it.
 
 ## Digital Twin
 
@@ -41,13 +44,13 @@ your experience, skills, projects, education and contact details (`POST /api/twi
   told not to invent facts) and falls back to the built-in answers if the call fails:
 
   ```bash
-  ANTHROPIC_API_KEY=sk-ant-... bun run start      # or add it to the shell running `bun run dev`
+  ANTHROPIC_API_KEY=sk-ant-... bun run dev        # locally; on Vercel use an environment variable
   TWIN_MODEL=claude-sonnet-5-5                    # optional model override
   ```
 
   The key stays on the server and is never sent to the browser.
 - Edit the greeting, placeholder and suggestion chips in `data/twin.json`.
-- The endpoint is limited to 15 questions per minute per IP, with a 500-character cap per question.
+- Questions are capped at 500 characters. For rate limiting on Vercel, add a rule under Firewall → Rate Limiting.
 - The UI labels it clearly as an AI assistant.
 
 ## Project structure
@@ -58,9 +61,12 @@ vite.config.js, tailwind.config.js, postcss.config.js
 src/
   main.jsx, App.jsx, index.css
   components/        Navbar, Hero, About, DigitalTwin, Skills, Experience, Projects, Education, Contact, Footer, Section (.jsx)
-server/index.js      GET /api/portfolio, POST /api/contact, POST /api/twin, static serving of dist/
+api/                 Vercel functions: POST /api/twin, POST /api/contact
+server/index.js      local dev server that runs the same handlers
 server/twin.js       Digital twin answer engine (built-in matcher + optional Claude)
-data/                profile, skills, experience, projects, education, twin, messages (JSON)
+server/resume.js     resume data for the functions
+vercel.json          Vercel build settings
+data/                profile, skills, experience, projects, education, twin (JSON)
 ```
 
 ## Editing content
@@ -69,7 +75,5 @@ All content lives in `data/*.json`. Edit those files and reload; no component ch
 
 ## Notes
 
-- Contact messages are appended to `data/messages.json`. This works on a normal server or your own machine,
-  but not on read-only or serverless hosts, where you'd swap it for an email service or database.
-- `data/messages.json` contains visitor details; add it to `.gitignore` if you push this repo publicly.
+- Contact messages are emailed to you through Resend (locally they are just printed to the console).
 - Run `bun install` once and commit the generated `bun.lock` so installs are reproducible.
